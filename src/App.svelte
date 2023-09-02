@@ -10,7 +10,10 @@
 
   let selectedKey='A';
 
-  const handleSelectKey = (key)=>selectedKey = key;
+  const handleSelectKey = (key)=>{
+    console.log(key);
+    selectedKey = key
+  };
 </script>
 
 <main class='drawer'>
@@ -73,7 +76,7 @@
             {#each keys as keynote}
             <li>
               <button 
-                class='btn w-full' 
+                class='w-full' 
                 on:click={()=>handleSelectKey(keynote.key)}>
                 {keynote.key}
               </button>
