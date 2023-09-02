@@ -1,55 +1,25 @@
 <script>
   import logo from "./assets/svelte.png";
-  import Counter from "./lib/Counter.svelte";
+  import AccordionMenu from "./components/AccordionMenu/AccordionMenu.svelte";
+  import AccordionMenuItem from "./components/AccordionMenu/AccordionMenuItem.svelte";
+  import ChordChart from "./components/ChordChart/ChordChart.svelte";
+  import Chord from "./lib/Chord/Chord.svelte";
 
-  const searchString = function (searchString) {
-      console.log(searchString);
-  }
+  import { keys } from "./services/musicUtils";
   
+
+  let selectedKey='A';
+
+  const handleSelectKey = (key)=>selectedKey = key;
 </script>
 
-<main>
-  <div
-    class="navbar mb-2 shadow-lg bg-neutral text-neutral-content rounded-box"
-  >
-    <div class="flex-none px-2 mx-2">
-      <span class="text-lg font-bold"> Vishnu | Frontend developer </span>
-    </div>
-    <div class="flex-1 px-2 mx-2">
-      <div class="items-stretch hidden lg:flex">
-        <a class="btn btn-ghost btn-sm rounded-btn"> Home </a>
-        <a class="btn btn-ghost btn-sm rounded-btn"> Portfolio </a>
-        <a class="btn btn-ghost btn-sm rounded-btn"> About </a>
-        <a class="btn btn-ghost btn-sm rounded-btn"> Contact </a>
-      </div>
-    </div>
-  
-    
-    
-    <div class="flex-none">
-      <button class="btn btn-square btn-ghost" on:click="{()=>searchString()}">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          class="inline-block w-6 h-6 stroke-current"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-          />
-        </svg>
-      </button>
-    </div>
-  </div>
-
-  <footer class="items-center p-4 footer bg-neutral text-neutral-content">
-    <div class="items-center grid-flow-col">
+<main class='drawer'>
+  <input type="checkbox" name="my-drawer" id="my-drawer" class='drawer-toggle'>
+  <div class="drawer-content">
+    <label for='my-drawer' class='btn btn-primary drawer-button absolute top-1 left-1'>
       <svg
-        width="36"
-        height="36"
+        width="24"
+        height="24"
         viewBox="0 0 24 24"
         xmlns="http://www.w3.org/2000/svg"
         fill-rule="evenodd"
@@ -59,7 +29,14 @@
         <path
           d="M22.672 15.226l-2.432.811.841 2.515c.33 1.019-.209 2.127-1.23 2.456-1.15.325-2.148-.321-2.463-1.226l-.84-2.518-5.013 1.677.84 2.517c.391 1.203-.434 2.542-1.831 2.542-.88 0-1.601-.564-1.86-1.314l-.842-2.516-2.431.809c-1.135.328-2.145-.317-2.463-1.229-.329-1.018.211-2.127 1.231-2.456l2.432-.809-1.621-4.823-2.432.808c-1.355.384-2.558-.59-2.558-1.839 0-.817.509-1.582 1.327-1.846l2.433-.809-.842-2.515c-.33-1.02.211-2.129 1.232-2.458 1.02-.329 2.13.209 2.461 1.229l.842 2.515 5.011-1.677-.839-2.517c-.403-1.238.484-2.553 1.843-2.553.819 0 1.585.509 1.85 1.326l.841 2.517 2.431-.81c1.02-.33 2.131.211 2.461 1.229.332 1.018-.21 2.126-1.23 2.456l-2.433.809 1.622 4.823 2.433-.809c1.242-.401 2.557.484 2.557 1.838 0 .819-.51 1.583-1.328 1.847m-8.992-6.428l-5.01 1.675 1.619 4.828 5.011-1.674-1.62-4.829z"
         />
-      </svg>
+      </svg></label>
+    <!-- Page content here-->
+  <ChordChart key={selectedKey} />
+  
+  
+  <footer class="items-center p-4 footer bg-neutral text-neutral-content">
+    <div class="items-center grid-flow-col">
+      
       <p>Copyright © 2021 - All rights reserved</p>
     </div>
     <div class="grid-flow-col gap-4 md:place-self-center md:justify-self-end">
@@ -79,6 +56,35 @@
      
     </div>
   </footer>
+  </div>
+  <div class='drawer-side'>
+    <label for='my-drawer' class='drawer-overlay'></label>
+    <div class='bg-slate-400 h-full'>
+      <AccordionMenu>
+        <AccordionMenuItem title='Songs' selected=true>
+          <ul>
+            <li>Bare Necessities</li>
+            <li>House at Pooh Corner</li>
+            <li>If I Only Had a Brain</li>
+          </ul>
+        </AccordionMenuItem>
+        <AccordionMenuItem title='Chords'>
+          <ul>
+            {#each keys as keynote}
+            <li>
+              <button 
+                class='btn w-full' 
+                on:click={()=>handleSelectKey(keynote.key)}>
+                {keynote.key}
+              </button>
+            </li>
+            {/each}
+          </ul>
+        </AccordionMenuItem>
+      </AccordionMenu>
+    </div>
+</div>
+
 </main>
 
 <style>
@@ -93,20 +99,6 @@
     margin: 0 auto;
   }
 
-  img {
-    height: 16rem;
-    width: 16rem;
-  }
-
-  h1 {
-    text-transform: uppercase;
-    font-size: 4rem;
-    font-weight: 100;
-    line-height: 1.1;
-    margin: 2rem auto;
-    max-width: 14rem;
-  }
-
   p {
     max-width: 14rem;
     margin: 1rem auto;
@@ -114,9 +106,6 @@
   }
 
   @media (min-width: 480px) {
-    h1 {
-      max-width: none;
-    }
 
     p {
       max-width: none;
