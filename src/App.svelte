@@ -1,11 +1,13 @@
 <script>
+
   import logo from "./assets/svelte.png";
   import AccordionMenu from "./components/AccordionMenu/AccordionMenu.svelte";
   import AccordionMenuItem from "./components/AccordionMenu/AccordionMenuItem.svelte";
   import ChordChart from "./components/ChordChart/ChordChart.svelte";
+  import SongViewer from "./components/SongViewer/SongViewer.svelte";
   import Chord from "./lib/Chord/Chord.svelte";
 
-  import { keys } from "./services/musicUtils";
+  import { keys } from "./services/music/musicUtils";
   
 
   let selectedKey='A';
@@ -34,8 +36,8 @@
         />
       </svg></label>
     <!-- Page content here-->
-  <ChordChart key={selectedKey} />
-  
+    <!-- <ChordChart key={selectedKey} /> -->
+    <SongViewer />
   
   <footer class="items-center p-4 footer bg-neutral text-neutral-content">
     <div class="items-center grid-flow-col">

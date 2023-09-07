@@ -2,8 +2,11 @@
   import { afterUpdate, beforeUpdate, onMount } from "svelte";
 
   // given an instrument and a chord, we should be able to generate a chord chart dynamically.
-  import { keys, instruments, chordOnInstrument, chordToNotes } from "../../services/musicUtils";
+  import { keys, instruments, chordOnInstrument, chordToNotes } from "../../services/music/musicUtils";
+  import { systemDefaultChords } from "../../services/music/systemDefaultChords";
+  
   import { SVGuitarChord } from "svguitar";
+  
   export let instrument;
   export let chord;
 
@@ -19,9 +22,14 @@
     // given the chord name (G7, Bbmin), we need the notes in the chord
     const chordObject = chordToNotes(chord);
 
-    const strings = chordFinder(chordObject);
+    const chartSettings = systemDefaultChords[instrument] && systemDefaultChords[instrument][chord]?
+      systemDefaultChords[instrument][chord] : 
+      {
+        barres: [],
+        fingers: chordFinder(chordObject) 
+      };
 
-    let maxFrets = Math.max(...strings.map(([,fret])=>fret) );
+    let maxFrets = Math.max(...chartSettings.fingers.map(([,fret])=>fret) );
     maxFrets = maxFrets >=4 ? maxFrets : 4;
 
     let divEl = document.createElement("div");
@@ -34,10 +42,7 @@
         position: 1,
         tuning: [...instrumentObject?.strings]
       })
-      .chord({
-        barres: [], 
-        fingers: strings, 
-      })
+      .chord(chartSettings)
       .draw();
 
       container.appendChild(divEl.firstChild);
@@ -52,17 +57,14 @@
   })
 
 </script>
+
 <div class='chord chart'>
-  <span>{chord}</span>
+  <span>{chord.replace(/(maj)$/, '')}</span>
   <div bind:this={container} />  
 </div>
 
 <style>
   .chord span {
     font-weight: 800;
-  }
-  .chord {
-    width: 10%;
-    padding: .25em;
   }
 </style>

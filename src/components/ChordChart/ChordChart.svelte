@@ -1,8 +1,9 @@
 <script>
   import Chord from '../../lib/Chord/Chord.svelte';
-import {chords, instruments} from '../../services/musicUtils';
+import {chords, instruments} from '../../services/music/musicUtils';
   export let key='A';
 
+  const myChords = chords.filter(({variant})=>variant !== 'min')
   let selectedInstrument=instruments[0].name;
 </script>
 
@@ -13,7 +14,7 @@ import {chords, instruments} from '../../services/musicUtils';
     {/each}
   </select>
   <div class='flex flex-wrap w-full'>
-    {#each chords as chord}
+    {#each myChords as chord}
       <Chord chord={key+chord.variant} instrument={selectedInstrument} />
     {/each}
   </div>
