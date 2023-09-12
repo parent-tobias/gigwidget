@@ -1,19 +1,16 @@
 <script>
   import chordsheetjs from 'chordsheetjs';
-  import { onMount } from 'svelte';
 
   const formatters = {
     html: chordsheetjs.HtmlDivFormatter,
     text: chordsheetjs.TextFormatter
   }
-  export let song;
+  export let chordSheet;
   export let mode = 'text';
 
-  const parser = new chordsheetjs.ChordProParser();
-  let parsedSong = parser.parse(song);
 
   const formatter = new formatters[mode]() ;
-  const formattedSheet =  formatter.format(parsedSong);
+  $: formattedSheet =  chordSheet ? formatter.format(chordSheet) : undefined;
 </script>
 
 <div class='songsheet-panel'>
@@ -47,7 +44,7 @@
 
 
 .chord-sheet-viewer {
-  background-color: #f8f8f8;
+  background-color: antiquewhite;
   color: #2F3131;
   flex: 1 0 auto;
   overflow: auto;
@@ -61,6 +58,7 @@
   font-size: 14px;
   outline-color: rgba(248, 248, 248, 0.5);
   transition: background-color 100ms ease-out;
+  text-align: left;
 }
 
 .chord-sheet-viewer[data-mode=html] :global(h2) {

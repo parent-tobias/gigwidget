@@ -4,14 +4,11 @@
   export let chords = [];
   
   export let instrument;
-
-  let displayedChords = [...new Set(chords)];
-  console.log(chords, displayedChords);
   
 </script>
 
 <div class='chords-list-panel'>
-  {#each displayedChords as chord}
+  {#each chords as chord}
   <Chord {chord} {instrument} />
   {/each}
 </div>
@@ -21,11 +18,11 @@
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    justify-content: space-around;
     align-items: flex-start;
-    justify-content: space-between;
+    height: fit-content(100%);
   }
   .chords-list-panel :global(.chord) {
-    width: 6vw;
-    height: 4vh;
+    width: 7vw;
   }
 </style>

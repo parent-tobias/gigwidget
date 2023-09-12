@@ -1,6 +1,7 @@
 export const keys = [
   {key: "A", accidental: "#"},
   {key: "A#", accidental: "#"},
+  {key: "Bb", accidental: 'b'},
   {key: "B", accidental: "#"},
   {key: "C", accidental: "b"},
   {key: "C#", accidental: "#"},

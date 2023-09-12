@@ -17,6 +17,8 @@
     "vite-plugin-pwa": "^0.16.4"
   },
   "dependencies": {
+    "bootstrap-icons": "^1.10.5",
+    "chordjs": "^2.0.1",
     "chordsheetjs": "^8.1.0",
     "idb": "^7.1.1",
     "svguitar": "^2.2.2",

@@ -177,7 +177,7 @@ export const systemDefaultChords = {
       "barres": [{
         "fromString": 4,
         "toString": 1,
-        "fret": 1,
+        "fret": 2,
       }],
       "fingers": [
         [1,3]
